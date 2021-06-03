@@ -4,6 +4,10 @@
  
 -- Write SQL query here
 
+SELECT * FROM country
+WHERE region = 'Southern Europe'
+ORDER BY population
+LIMIT 1;
 
 -- Clue #2: Now that we're here, we have insight that Carmen was seen attending language classes in
 -- this country's officially recognized language. Check our databases and find out what language is
@@ -11,6 +15,10 @@
 
 -- Write SQL query here
 
+SELECT language FROM country c JOIN countrylanguage l ON c.code = l.countrycode
+WHERE c.region = 'Southern Europe'
+ORDER BY c.population
+LIMIT 1;
 
 -- Clue #3: We have new news on the classes Carmen attended – our gumshoes tell us she's moved on
 -- to a different country, a country where people speak only the language she was learning. Find out which
@@ -18,6 +26,8 @@
 
 -- Write SQL query here
 
+SELECT name FROM country c JOIN countrylanguage l ON c.code = l.countrycode
+WHERE l.language = 'Italian' AND l.percentage = 100;
 
 -- Clue #4: We're booking the first flight out – maybe we've actually got a chance to catch her this time.
 -- There are only two cities she could be flying to in the country. One is named the same as the country – that
@@ -26,6 +36,8 @@
 
 -- Write SQL query here
 
+SELECT * from city 
+WHERE countrycode = 'SMR' AND name <> 'San Marino';
 
 -- Clue #5: Oh no, she pulled a switch – there are two cities with very similar names, but in totally different
 -- parts of the globe! She's headed to South America as we speak; go find a city whose name is like the one we were
@@ -33,6 +45,8 @@
 
 -- Write SQL query here
 
+SELECT country.name from city JOIN country ON city.countrycode = country.code
+WHERE city.name LIKE 'Ser%' AND country.continent = 'South America';
 
 -- Clue #6: We're close! Our South American agent says she just got a taxi at the airport, and is headed towards
 -- the capital! Look up the country's capital, and get there pronto! Send us the name of where you're headed and we'll
@@ -40,6 +54,8 @@
 
 -- Write SQL query here
 
+SELECT city.name from country JOIN city ON country.capital = city.id
+WHERE country.code = 'BRA';
 
 -- Clue #7: She knows we're on to her – her taxi dropped her off at the international airport, and she beat us to
 -- the boarding gates. We have one chance to catch her, we just have to know where she's heading and beat her to the
@@ -57,3 +73,5 @@
 
 -- We're counting on you, gumshoe. Find out where she's headed, send us the info, and we'll be sure to meet her at the gates with bells on.
 
+SELECT name from city
+WHERE population = 91084;
